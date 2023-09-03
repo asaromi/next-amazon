@@ -1,9 +1,8 @@
 import Head from 'next/head'
 import {Banner, Header, ProductFeed} from '../components'
 
+export const runtime = process.env.RUNTIME || 'edge'
 const Home = ({ products }) => {
-
-
   return (
     <div className="bg-gray-100 min-h-screen ">
       <Head>
