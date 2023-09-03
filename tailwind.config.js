@@ -13,10 +13,28 @@ module.exports = {
           DEFAULT: "#131921",
         },
       },
+      height: {
+        fhd: "1080px",
+      },
+      width: {
+        "50": '200px',
+        fhd: "1920px",
+      },
     },
+    maxHeight: (theme) => ({
+      ...theme("height"),
+    }),
+    minHeight: (theme) => ({
+      ...theme("height"),
+    }),
+    maxWidth: (theme) => ({
+      ...theme("width"),
+    }),
+    minWidth: (theme) => ({
+      ...theme("width"),
+    }),
   },
   variants: {
     extend: {},
   },
-  plugins: [require("@tailwindcss/line-clamp")],
 };
