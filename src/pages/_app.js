@@ -2,6 +2,8 @@ import { Provider } from 'react-redux'
 import { store } from '../app/store'
 import '../styles/globals.css'
 
+export const runtime = process.env.RUNTIME
+
 const MyApp = ({ Component, pageProps }) => {
   return (
     <Provider store={store}>

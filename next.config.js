@@ -6,8 +6,12 @@ const nextConfig = {
     remotePatterns: [{
       hostname: 'pnghd.pics',
       protocol: 'https',
-    }]
+    }],
+    unoptimized: true,
   },
+  env: {
+    RUNTIME: process.env.RUNTIME || 'edge',
+  }
 }
 
 module.exports = nextConfig
