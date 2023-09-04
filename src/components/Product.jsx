@@ -6,12 +6,12 @@ import Currency from './Currency'
 const MAX_RATING = 5
 const MIN_RATING = 1
 
-const Product = ({id, title, price, description, category, image}) => {
+const Product = ({id, title, price, description, category, image, isPrime}) => {
   const [rating] = React.useState(Math.floor(Math.random() * (MAX_RATING - MIN_RATING) + MIN_RATING))
-  const [hasPrime] = React.useState(Math.random() < 0.5)
+  const [hasPrime] = isPrime ? [isPrime] : React.useState(Math.random() < 0.5)
 
   return (
-    <div className="relative flex flex-col m-5 p-10 bg-white z-30">
+    <div className="relative flex flex-col m-5 p-10 bg-white z-10">
       <p className="absolute top-2 right-2 text-xs italic text-gray-400">{category}</p>
 
       <Image

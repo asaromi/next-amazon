@@ -23,7 +23,7 @@ const ProductFeed = ({products = []}) => {
         alt="banner"
       />
 
-      <div className="md:col-span-2 h-full p-5 -m-5">
+      <div className="md:col-span-2 h-full p-5 xl:p-0 -m-5 xl:m-0">
         {products.slice(4,5).map(({id, title, price, description, category, image}) => (
           <Product
             key={id}
@@ -33,6 +33,7 @@ const ProductFeed = ({products = []}) => {
             description={description}
             category={category}
             image={image}
+            isPrime={true}
           />
         ))}
       </div>
