@@ -2,6 +2,8 @@ import React from 'react'
 import NextAuth from 'next-auth'
 import Google from 'next-auth/providers/google'
 
+export const runtime = process.env.RUNTIME_MODE
+
 const AuthAPI = NextAuth({
   // Configure one or more authentication providers
   providers: [
