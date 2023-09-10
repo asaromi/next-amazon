@@ -11,6 +11,7 @@ const AuthAPI = NextAuth({
     }),
     // ...add more providers here
   ],
+  secret: process.env.SECRET,
 })
 
 export default AuthAPI
