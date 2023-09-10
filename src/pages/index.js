@@ -5,7 +5,7 @@ import {Banner, Header, ProductFeed} from '../components'
 import {products as exampleProducts} from '../data/products'
 
 // needed for each page for deployment purposes (cloudflare pages)
-export const runtime = process.env.RUNTIME_MODE
+export const runtime = 'experimental-edge'
 
 const Home = ({products}) => {
   const [clientRender, setClientRender] = useState(false)
