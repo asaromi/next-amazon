@@ -40,18 +40,16 @@ const Home = ({products}) => {
 }
 
 export const getServerSideProps = async () => {
-  console.group('getting data from fakestoreapi.com')
   const products = (await fetch('https://fakestoreapi.com/products')
     .then(
       async (res) => (res && await res.json() || exampleProducts),
     )
     .catch((error) => {
-      console.log('getting error while fetching products from fakestoreapi.com')
-      console.error(error)
+      // console.log('getting error while fetching products from fakestoreapi.com')
+      // console.error(error)
 
       return exampleProducts
     })
-    .finally(() => console.groupEnd())
   )
 
   return {
