@@ -3,9 +3,9 @@ import NextAuth from 'next-auth'
 import Google from 'next-auth/providers/google'
 
 export const config = {
-  runtime: 'experimental-edge',
+  runtime: 'edge',
   unstable_allowDynamic: [
-    '/node_modules/next-auth/**'
+    '/node_modules/next-auth/**',
   ]
 }
 
