@@ -9,14 +9,16 @@ const typeCurrency = {
   "IDR": "Rp",
   "MYR": "RM",
 }
+export const getCurrency = ({ currency = 'USD', number = 0, locale = 'en-US' }) =>
+  new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency,
+  }).format(number)
 
 const Currency = ({ price, currency = 'USD' }) => {
-  const currencyPattern = typeCurrency[currency] || '$'
-
   return (
     <p className="text-sm inline-flex">
-      <span className="font-medium mr-2">{currencyPattern}</span>
-      {price}
+      {getCurrency({ currency, number: price })}
     </p>
   )
 }

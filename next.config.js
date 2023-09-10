@@ -10,8 +10,11 @@ const nextConfig = {
     unoptimized: true,
   },
   env: {
-    RUNTIME: process.env.RUNTIME || 'edge',
-  }
+    RUNTIME: process.env.RUNTIME || 'experimental-edge',
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL || 'http://localhost:3000',
+    // GOOGLE_ID: process.env.GOOGLE_ID || 'google-id',
+    // GOOGLE_SECRET: process.env.GOOGLE_SECRET || 'google-secret',
+  },
 }
 
 module.exports = nextConfig

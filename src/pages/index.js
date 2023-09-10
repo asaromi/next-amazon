@@ -1,21 +1,27 @@
 import Head from 'next/head'
-import {Banner, Header, ProductFeed} from '../components'
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 
-export const runtime = 'experimental-edge'
-const Home = ({ products }) => {
+import {Banner, Header, ProductFeed} from '../components'
+import {products as exampleProducts} from '../data/products'
+
+// needed for each page for deployment purposes (cloudflare pages)
+export const runtime = process.env.RUNTIME_MODE
+
+const Home = ({products}) => {
+  const [clientRender, setClientRender] = useState(false)
+
   const beforeDestroy = () => {
     document.body.style.overflow = null
   }
 
   useEffect(() => {
-    if(document) document.body.style.overflow = 'auto'
+    setClientRender(true)
 
     return beforeDestroy
   })
 
-  return (
-    <div className="bg-gray-100 min-h-screen overflow-y-auto">
+  return clientRender && (
+    <div className="bg-gray-100 min-h-screen overflow-y-auto overflow-x-hidden">
       <Head>
         <title>Amazon 2.0</title>
       </Head>
@@ -26,18 +32,27 @@ const Home = ({ products }) => {
         {/* Banner */}
         <Banner/>
 
-
         {/* ProductFeed */}
-        <ProductFeed products={products} />
+        <ProductFeed products={products}/>
       </main>
     </div>
-  )
+  ) || null
 }
 
-export const getServerSideProps = async (context) => {
-  const products = (await fetch('https://fakestoreapi.com/products').then(
-    async (res) => await res.json()
-  ) || [])
+export const getServerSideProps = async () => {
+  console.group('getting data from fakestoreapi.com')
+  const products = (await fetch('https://fakestoreapi.com/products')
+    .then(
+      async (res) => (res && await res.json() || exampleProducts),
+    )
+    .catch((error) => {
+      console.log('getting error while fetching products from fakestoreapi.com')
+      console.error(error)
+
+      return exampleProducts
+    })
+    .finally(() => console.groupEnd())
+  )
 
   return {
     props: {

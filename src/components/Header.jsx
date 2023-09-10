@@ -1,25 +1,37 @@
 import React from 'react'
-import Image from 'next/image'
 import {
   MenuIcon,
   SearchIcon,
   ShoppingCartIcon,
 } from '@heroicons/react/outline'
+import {signIn, signOut, useSession} from 'next-auth/react'
+import Image from 'next/legacy/image'
+import {useRouter} from 'next/router'
+import {useSelector} from 'react-redux'
+
+import {selectItems} from '../slices/basketSlice'
 
 const Header = () => {
+  const {data: session} = useSession()
+  const router = useRouter()
+  const items = useSelector(selectItems)
+
   return (
     <header>
       {/* Top Nav */}
       <div className="flex flex-grow items-center bg-amazon_blue py-2.5 px-1">
-        <div className="flex flex-grow sm:flex-grow-0 items-center mt-2">
+        <button
+          className="justify-start flex flex-grow sm:flex-grow-0 items-center mt-2"
+          onClick={() => router.push('/')}
+        >
           <Image
             alt="amazon logo"
             src="https://links.papareact.com/f90"
-            width={150}
+            width={125}
             height={40}
-            className="cursor-pointer object-contain object-center mx-3"
+            className="cursor-pointer aspect-auto object-contain object-center mx-5"
           />
-        </div>
+        </button>
 
         {/* Search bar */}
         <div className="hidden sm:flex flex-grow items-center h-10 bg-yellow-400 rounded-md cursor-pointer ml-2">
@@ -32,33 +44,39 @@ const Header = () => {
 
         {/* Right */}
         <div className="text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap">
-          <div className="link">
-            <p>Hello Asa Romi blabla</p>
+          <button
+            className="text-start link"
+            onClick={() => !session && signIn() || signOut()}
+          >
+            <p>{`Hello ${session?.user?.name || 'Guest'}`}</p>
             <p className="font-extrabold md:text-sm">Account & List</p>
-          </div>
+          </button>
 
           <div className="link">
             <p>Returns</p>
-            <p className="font-extrabold md:text-sm">{"& Orders"}</p>
+            <p className="font-extrabold md:text-sm">{'& Orders'}</p>
           </div>
 
-          <div className="relative link flex items-center">
+          <button
+            className="relative link flex justify-start items-center"
+            onClick={() => router.push('/checkout')}
+          >
             <span
               className="absolute bg-yellow-400 top-0 right-0 md:right-10 h-4 w-4 text-center text-black font-bold rounded-full"
             >
-              0
+              {items.length}
             </span>
 
             <ShoppingCartIcon className="h-10"/>
             <p className="hidden md:inline font-extrabold md:text-sm mt-2">Basket</p>
-          </div>
+          </button>
         </div>
       </div>
 
       {/* Bottom Nav */}
       <div className="flex items-center space-x-3 p-2 pl-6 bg-amazon_blue-light text-white text-sm">
         <p className="link flex items-center">
-          <MenuIcon className="h-6 mr-1" />
+          <MenuIcon className="h-6 mr-1"/>
           All
         </p>
         <p className="link">Prime Video</p>

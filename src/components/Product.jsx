@@ -1,14 +1,27 @@
 import React from 'react'
 import Image from 'next/image'
 import {StarIcon} from '@heroicons/react/solid'
+import {useDispatch} from 'react-redux'
+
+import {addToBasket} from '../slices/basketSlice'
 import Currency from './Currency'
 
 const MAX_RATING = 5
 const MIN_RATING = 1
 
 const Product = ({id, title, price, description, category, image, isPrime}) => {
+  const dispatch = useDispatch()
   const [rating] = React.useState(Math.floor(Math.random() * (MAX_RATING - MIN_RATING) + MIN_RATING))
   const [hasPrime] = isPrime ? [isPrime] : React.useState(Math.random() < 0.5)
+
+  const addProductToBasket = () => {
+    const product = { id, title, price, rating, description, category, image, hasPrime }
+
+    // Sending the product as an action to the REDUX store... the basket slice
+    dispatch(addToBasket(product))
+  }
+
+  if (!id || !image) return null
 
   return (
     <div className="relative flex flex-col m-5 p-10 bg-white z-10">
@@ -32,7 +45,7 @@ const Product = ({id, title, price, description, category, image, isPrime}) => {
       <p className="text-xs my-2 line-clamp-2">{description}</p>
 
       <div className="mb-5">
-        <Currency price={price} currency="GBP" />
+        <Currency price={price} currency="USD" />
       </div>
 
       {hasPrime && (
@@ -47,7 +60,9 @@ const Product = ({id, title, price, description, category, image, isPrime}) => {
         </div>
       )}
 
-      <button className="mt-auto button">Add to Basket</button>
+      <button className="mt-auto button" onClick={addProductToBasket}>
+        Add to Basket
+      </button>
     </div>
   )
 }
