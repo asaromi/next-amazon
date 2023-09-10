@@ -10,7 +10,7 @@ const nextConfig = {
     unoptimized: true,
   },
   env: {
-    RUNTIME_MODE: process.env.RUNTIME_MODE || 'experimental-edge',
+    RUNTIME_MODE: process.env.RUNTIME_MODE,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL || 'http://localhost:3000',
     // GOOGLE_ID: process.env.GOOGLE_ID || 'google-id',
     // GOOGLE_SECRET: process.env.GOOGLE_SECRET || 'google-secret',

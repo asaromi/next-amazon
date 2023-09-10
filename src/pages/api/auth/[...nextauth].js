@@ -2,8 +2,12 @@ import React from 'react'
 import NextAuth from 'next-auth'
 import Google from 'next-auth/providers/google'
 
-export const runtime = 'experimental-edge'
-console.log('runtime mode (pages/api/auth):', runtime)
+export const config = {
+  runtime: 'experimental-edge',
+  unstable_allowDynamic: [
+    '/node_modules/next-auth/**'
+  ]
+}
 
 const AuthAPI = NextAuth({
   // Configure one or more authentication providers
