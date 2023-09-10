@@ -6,6 +6,7 @@ export const config = {
   runtime: 'edge',
   unstable_allowDynamic: [
     '/node_modules/next-auth/**',
+    '/node_modules/@babel/runtime/regenerator/index.js',
   ]
 }
 
