@@ -7,7 +7,6 @@ const nextConfig = {
       hostname: 'pnghd.pics',
       protocol: 'https',
     }],
-    unoptimized: true,
   },
   env: {
     RUNTIME_MODE: process.env.RUNTIME_MODE,
