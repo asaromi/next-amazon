@@ -4,9 +4,6 @@ import {useEffect, useState} from 'react'
 import {Banner, Header, ProductFeed} from '../components'
 import {products as exampleProducts} from '../data/products'
 
-// needed for each page for deployment purposes (cloudflare pages)
-export const runtime = 'experimental-edge'
-
 const Home = ({products}) => {
   const [clientRender, setClientRender] = useState(false)
 
