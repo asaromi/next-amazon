@@ -1,16 +1,41 @@
+'use client'
+
 import React from 'react'
-import Image from 'next/image'
+import {loadStripe} from '@stripe/stripe-js'
+import Image from 'next-image-export-optimizer'
 import Head from 'next/head'
 import {useSelector} from 'react-redux'
-import {useSession} from 'next-auth/react'
 
 import {Currency, CheckoutProduct, Header} from '../components'
 import {selectItems, selectTotalPrices} from '../slices/basketSlice'
+import {selectAuth} from '../slices/authSlice'
+
+const stripePromise = loadStripe(process.env.STRIPE_PUBLIC_KEY)
 
 const Checkout = () => {
   const items = useSelector(selectItems)
   const subtotal = useSelector(selectTotalPrices)
-  const {data: session} = useSession()
+  const auth = useSelector(selectAuth)
+
+  const createCheckoutSession = async () => {
+    await fetch(`${process.env.API_URL}/api/v1/stripe/checkout-session`, {
+      method: 'POST',
+      body: JSON.stringify({
+        items,
+        email: auth.user.email,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(async (res) => {
+        if (res.ok) {
+          const {data: {url}} = await res.json()
+          console.log('url', url)
+          window.location.href = url
+        }
+      })
+  }
 
   return (
     <>
@@ -27,8 +52,8 @@ const Checkout = () => {
             <Image
               src="https://links.papareact.com/ikj"
               width={1020} height={250}
-              objectFit="contain"
               alt="banner checkout"
+              className="object-contain object-center"
             />
 
             <div className="flex flex-col p-5 space-y-10 bg-white">
@@ -58,15 +83,17 @@ const Checkout = () => {
               <>
                 <h2 className="whitespace-nowrap">Subtotal ({items.length} items):{' '}
                   <span className="font-bold">
-                    <Currency price={subtotal} />
+                    <Currency price={subtotal}/>
                   </span>
                 </h2>
 
                 <button
-                  disabled={!session}
-                  className={`button mt-2 disabled:pointer-events-none ${!session && 'from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed'}`}
+                  role="link"
+                  disabled={!auth?.loggedIn}
+                  className={`button mt-2 disabled:pointer-events-none ${!auth?.loggedIn && 'from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed'}`}
+                  onClick={createCheckoutSession}
                 >
-                  {!session ? 'Sign in to checkout' : 'Proceed to checkout'}
+                  {!auth?.loggedIn ? 'Sign in to checkout' : 'Proceed to checkout'}
                 </button>
               </>
             )}

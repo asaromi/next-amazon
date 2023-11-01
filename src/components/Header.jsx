@@ -1,20 +1,34 @@
-import React from 'react'
+'use client'
+
+import React, {useContext, useEffect} from 'react'
 import {
   MenuIcon,
   SearchIcon,
   ShoppingCartIcon,
 } from '@heroicons/react/outline'
-import {signIn, signOut, useSession} from 'next-auth/react'
-import Image from 'next/legacy/image'
+import {getAuth, GoogleAuthProvider, signInWithPopup, signOut as signOutGoogle} from 'firebase/auth'
+// import {signIn, signOut, useSession} from 'next-auth/react'
+import Image from 'next-image-export-optimizer'
 import {useRouter} from 'next/router'
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 
+import {auth} from '../app/firebase'
+import {AuthContext} from '../hooks/authProvider'
 import {selectItems} from '../slices/basketSlice'
+import {setAuth, revokeAuth} from '../slices/authSlice'
+
+const provider = new GoogleAuthProvider()
 
 const Header = () => {
-  const {data: session} = useSession()
   const router = useRouter()
   const items = useSelector(selectItems)
+  const {user, loggedIn} = useContext(AuthContext)
+
+  const signIn = () => signInWithPopup(auth, provider)
+      .catch(console.error)
+
+  const signOut = () => signOutGoogle(auth)
+      .catch(console.error)
 
   return (
     <header>
@@ -46,9 +60,9 @@ const Header = () => {
         <div className="text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap">
           <button
             className="text-start link"
-            onClick={() => !session && signIn() || signOut()}
+            onClick={() => !user && signIn() || signOut()}
           >
-            <p>{`Hello ${session?.user?.name || 'Guest'}`}</p>
+            <p>{`Hello ${user?.displayName || 'Guest'}`}</p>
             <p className="font-extrabold md:text-sm">Account & List</p>
           </button>
 
