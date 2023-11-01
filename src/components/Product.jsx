@@ -1,6 +1,6 @@
 import React from 'react'
-import Image from 'next/image'
 import {StarIcon} from '@heroicons/react/solid'
+import Image from 'next-image-export-optimizer'
 import {useDispatch} from 'react-redux'
 
 import {addToBasket} from '../slices/basketSlice'
@@ -30,7 +30,8 @@ const Product = ({id, title, price, description, category, image, isPrime}) => {
       <Image
         src={image}
         alt={`product image ${id}`}
-        width={200} height={200}
+        width={200}
+        height={200}
         className="w-4/5 max-w-50 object-contain aspect-square mx-auto"
       />
 

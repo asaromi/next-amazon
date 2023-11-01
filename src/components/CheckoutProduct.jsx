@@ -1,5 +1,5 @@
 import React from 'react'
-import Image from 'next/legacy/image'
+import Image from 'next-image-export-optimizer'
 import {StarIcon} from '@heroicons/react/solid'
 import {useDispatch} from 'react-redux'
 import Currency from './Currency'
