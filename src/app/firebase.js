@@ -2,7 +2,7 @@ import {initializeApp} from 'firebase/app'
 import {getAuth} from 'firebase/auth'
 // import {getFirestore} from 'firebase/firestore'
 
-const firebaseConfig = require('/firebase.config.json')
+const firebaseConfig = process.env.FIREBASE_CONFIG
 
 export const app = initializeApp(firebaseConfig)
 
