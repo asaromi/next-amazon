@@ -6,16 +6,14 @@ import {
   SearchIcon,
   ShoppingCartIcon,
 } from '@heroicons/react/outline'
-import {getAuth, GoogleAuthProvider, signInWithPopup, signOut as signOutGoogle} from 'firebase/auth'
-// import {signIn, signOut, useSession} from 'next-auth/react'
-import Image from 'next-image-export-optimizer'
+import {GoogleAuthProvider, signInWithPopup, signOut as signOutFirebase} from 'firebase/auth'
 import {useRouter} from 'next/router'
-import {useDispatch, useSelector} from 'react-redux'
+import {useSelector} from 'react-redux'
 
 import {auth} from '../app/firebase'
 import {AuthContext} from '../hooks/authProvider'
 import {selectItems} from '../slices/basketSlice'
-import {setAuth, revokeAuth} from '../slices/authSlice'
+import Link from 'next/link'
 
 const provider = new GoogleAuthProvider()
 
@@ -27,25 +25,28 @@ const Header = () => {
   const signIn = () => signInWithPopup(auth, provider)
       .catch(console.error)
 
-  const signOut = () => signOutGoogle(auth)
+  const signOut = () => {
+    console.log('trying to sign out')
+    return signOutFirebase(auth)
       .catch(console.error)
+  }
 
   return (
     <header>
       {/* Top Nav */}
       <div className="flex flex-grow items-center bg-amazon_blue py-2.5 px-1">
-        <button
+        <Link
+          href="/"
           className="justify-start flex flex-grow sm:flex-grow-0 items-center mt-2"
-          onClick={() => router.push('/')}
         >
-          <Image
+          <img
             alt="amazon logo"
             src="https://links.papareact.com/f90"
             width={125}
             height={40}
             className="cursor-pointer aspect-auto object-contain object-center mx-5"
           />
-        </button>
+        </Link>
 
         {/* Search bar */}
         <div className="hidden sm:flex flex-grow items-center h-10 bg-yellow-400 rounded-md cursor-pointer ml-2">
@@ -66,14 +67,14 @@ const Header = () => {
             <p className="font-extrabold md:text-sm">Account & List</p>
           </button>
 
-          <div className="link">
+          <Link className="link" href="/orders">
             <p>Returns</p>
             <p className="font-extrabold md:text-sm">{'& Orders'}</p>
-          </div>
+          </Link>
 
-          <button
+          <Link
             className="relative link flex justify-start items-center"
-            onClick={() => router.push('/checkout')}
+            href="/checkout"
           >
             <span
               className="absolute bg-yellow-400 top-0 right-0 md:right-10 h-4 w-4 text-center text-black font-bold rounded-full"
@@ -83,7 +84,7 @@ const Header = () => {
 
             <ShoppingCartIcon className="h-10"/>
             <p className="hidden md:inline font-extrabold md:text-sm mt-2">Basket</p>
-          </button>
+          </Link>
         </div>
       </div>
 
