@@ -4,10 +4,8 @@ import Head from 'next/head'
 import {useEffect, useState} from 'react'
 
 import {Banner, Header, ProductFeed} from '../components'
-import {products as exampleProducts} from '../data/products'
 
 const Home = () => {
-  const [clientRender, setClientRender] = useState(true)
   const [products, setProducts] = useState([])
 
   const beforeDestroy = () => {
@@ -16,29 +14,29 @@ const Home = () => {
   }
 
   const getProducts = async () => {
-    const productsData = (await fetch('https://fakestoreapi.com/products')
-        .then(
-          async (res) => (await res.json()),
-        )
-        .catch((error) => {
-          console.log('getting error while fetching products from fakestoreapi.com')
-          console.error(error)
-
-          return null
-        })
-        .finally(() => setClientRender(() => false))
-    )
-
-    setProducts(() => (productsData || exampleProducts))
+    await fetch('https://fakestoreapi.com/products')
+      .then(
+        async (res) => {
+          if (!res.ok) throw new Error('Something went wrong')
+          const data = await res.json()
+          setProducts(() => data)
+        },
+      )
+      .catch((error) => {
+        console.log('getting error while fetching products from fakestoreapi.com')
+        console.error(error)
+      })
   }
 
   useEffect(() => {
-    getProducts()
+    setTimeout(() => {
+      getProducts()
+    }, 2500)
 
     return beforeDestroy
   }, [])
 
-  return !clientRender && (
+  return (
     <>
       <Head>
         <title>Amazon 2.0</title>
@@ -52,7 +50,7 @@ const Home = () => {
         <ProductFeed products={products}/>
       </main>
     </>
-  ) || null
+  )
 }
 
 export default Home
