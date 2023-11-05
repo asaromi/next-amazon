@@ -20,7 +20,7 @@ const ProductFeed = ({products = []}) => {
       ))}
 
       <img
-        className="w-full max-w-fhd md:col-span-full px-5"
+        className="w-full max-w-hdPlus md:col-span-full px-5"
         src="https://links.papareact.com/dyz"
         alt="banner"
       />

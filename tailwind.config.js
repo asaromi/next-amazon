@@ -16,10 +16,12 @@ module.exports = {
       height: {
         '50': '200px',
         fhd: '1080px',
+        hdPlus: '900px',
       },
       width: {
         '50': '200px',
         fhd: '1920px',
+        hdPlus: '1600px',
       },
     },
     maxHeight: ({theme}) => ({
