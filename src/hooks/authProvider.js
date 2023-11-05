@@ -17,8 +17,10 @@ export const AuthContextProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(initialValue.loggedIn)
   const dispatch = useDispatch()
 
-  const userLogin = (authUser) => {
-    setUser(() => authUser)
+  const userLogin = (authCredentials) => {
+    const [authUser] = authCredentials?.providerData || []
+
+    setUser(() => authUser || null)
     setLoggedIn(() => !!authUser)
 
     if (!!authUser) dispatch(setAuth({ user, loggedIn }))
