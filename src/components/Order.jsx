@@ -21,7 +21,7 @@ const Order = ({ id, amount, amountShipping, images, items, timestamp, updatedAt
         </div>
 
         <p className="text-sm whitespace-nowrap sm:text-xl self-end flex-1 text-right text-blue-500 font-medium">{items.length} items</p>
-        <p className="absolute top-2 right-2 w-40 lg:w-72 truncate text-xs whitespace-nowrap">{id}</p>
+        <p className="absolute top-2 right-2 w-40 lg:w-72 truncate text-xs whitespace-nowrap">ORDER # {id}</p>
       </div>
 
       <div className="p-5 sm:p-10">
