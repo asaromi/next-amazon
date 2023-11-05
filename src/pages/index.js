@@ -7,11 +7,12 @@ import {Banner, Header, ProductFeed} from '../components'
 import {products as exampleProducts} from '../data/products'
 
 const Home = () => {
-  const [clientRender, setClientRender] = useState(false)
+  const [clientRender, setClientRender] = useState(true)
   const [products, setProducts] = useState([])
 
   const beforeDestroy = () => {
     document.body.style.overflow = null
+    setProducts(() => [])
   }
 
   const getProducts = async () => {
@@ -25,34 +26,32 @@ const Home = () => {
 
           return null
         })
+        .finally(() => setClientRender(() => false))
     )
 
     setProducts(() => (productsData || exampleProducts))
   }
 
   useEffect(() => {
-    setClientRender(true)
     getProducts()
 
     return beforeDestroy
   }, [])
 
-  return clientRender && (
-    <div className="bg-gray-100 min-h-screen overflow-y-auto overflow-x-hidden">
+  return !clientRender && (
+    <>
       <Head>
         <title>Amazon 2.0</title>
       </Head>
 
-      <Header/>
-
-      <main className="max-w-fhd mx-auto">
+      <main className="max-w-hdPlus mx-auto">
         {/* Banner */}
         <Banner/>
 
         {/* ProductFeed */}
         <ProductFeed products={products}/>
       </main>
-    </div>
+    </>
   ) || null
 }
 
