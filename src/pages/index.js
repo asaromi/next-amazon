@@ -3,7 +3,8 @@
 import Head from 'next/head'
 import {useEffect, useState} from 'react'
 
-import {Banner, Header, ProductFeed} from '../components'
+import {Banner, ProductFeed} from '../components'
+import exampleProducts from '../data/products'
 
 const Home = () => {
   const [products, setProducts] = useState([])
@@ -25,6 +26,8 @@ const Home = () => {
       .catch((error) => {
         console.log('getting error while fetching products from fakestoreapi.com')
         console.error(error)
+
+        setProducts(() => exampleProducts)
       })
   }
 
