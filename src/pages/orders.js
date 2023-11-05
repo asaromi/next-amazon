@@ -1,3 +1,5 @@
+'use client'
+
 import React, {useEffect, useState} from 'react'
 import {collection, getDocs, getDocsFromServer, getDocsFromCache, limit, orderBy, query} from 'firebase/firestore'
 import Head from 'next/head'
